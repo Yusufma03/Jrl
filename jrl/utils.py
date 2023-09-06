@@ -259,3 +259,9 @@ class QP:
             return x.squeeze(2), trace
 
         return x.squeeze(2)
+
+
+def positive_quat(quat):
+    """Quat has shape of [B, 4](wxyz)"""
+    mask = quat[:, :1] > 0
+    return quat * mask + (-quat) * (~mask)

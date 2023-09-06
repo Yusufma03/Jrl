@@ -34,7 +34,7 @@ from jrl.urdf_utils import (
     UNHANDLED_JOINT_TYPES,
     merge_fixed_joints_to_one,
 )
-from jrl.utils import to_torch
+from jrl.utils import to_torch, positive_quat
 from jrl.geometry import capsule_capsule_distance_batch, capsule_cuboid_distance_batch
 
 
@@ -828,6 +828,7 @@ class Robot:
 
         if return_quaternion:
             quaternions = rotation_matrix_to_quaternion(base_T_joint[:, 0:3, 0:3])
+            quaternions = positive_quat(quaternions)
             translations = base_T_joint[:, 0:3, 3]
             base_T_joint = torch.cat([translations, quaternions], dim=1)
 
